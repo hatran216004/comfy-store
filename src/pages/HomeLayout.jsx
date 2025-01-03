@@ -2,9 +2,11 @@ import { Outlet } from 'react-router-dom';
 
 function HomeLayout() {
   return (
-    <div>
+    <>
+      <header>Header</header>
       <Outlet />
-    </div>
+      <footer>Footer</footer>
+    </>
   );
 }
 export default HomeLayout;
