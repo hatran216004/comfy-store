@@ -5,7 +5,10 @@ function SubmitBtn({ text = 'submit' }) {
   const isSubmitting = navigation.state === 'submitting';
 
   return (
-    <button className="btn btn-primary btn-block">
+    <button
+      className="btn btn-primary btn-block uppercase"
+      disabled={isSubmitting}
+    >
       {isSubmitting ? (
         <>
           <span className="loading loading-spinner"></span>sending...
