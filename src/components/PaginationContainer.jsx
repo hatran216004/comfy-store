@@ -10,7 +10,6 @@ import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 function PaginationContainer() {
   const { meta } = useLoaderData();
   const { pageCount, page: currentPage } = meta.pagination;
-  console.log(currentPage);
   const navigate = useNavigate();
   const { search, pathname } = useLocation();
 
