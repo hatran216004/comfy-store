@@ -5,18 +5,18 @@ import NavLinks from './NavLinks';
 import { useEffect, useState } from 'react';
 
 const themes = {
-  winter: 'winter',
-  dracular: 'dracular'
+  cupcake: 'cupcake',
+  dracula: 'dracula'
 };
 
 function Navbar() {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('theme') || themes.winter;
+    return localStorage.getItem('theme') || themes.cupcake;
   });
 
   function handleTheme() {
     setTheme((currTheme) =>
-      currTheme === themes.winter ? themes.dracular : themes.winter
+      currTheme === themes.cupcake ? themes.dracula : themes.cupcake
     );
   }
 
@@ -65,6 +65,7 @@ function Navbar() {
             {/* moon icon */}
             <BsMoonFill className="swap-off h-4 w-4" />
           </label>
+
           <NavLink to="/cart" className="btn btn-ghost btn-circle btn-md ml-4">
             <div className="indicator">
               <BsCart3 className="h-6 w-6" />
