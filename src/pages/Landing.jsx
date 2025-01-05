@@ -5,7 +5,8 @@ const url = '/products?featured=true';
 export async function loader() {
   try {
     const res = await customFetch(url);
-    return res.data;
+    const products = res.data.data;
+    return { products };
   } catch (error) {
     console.log(error);
   }
