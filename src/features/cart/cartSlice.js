@@ -45,13 +45,16 @@ const cartSlice = createSlice({
       state.cartTotal -= removeItem.amount * removeItem.price;
       cartSlice.caseReducers.calculateTotals(state);
       toast.success('Item removed from cart');
+
+      if (state.numItemsInCart === 0) cartSlice.caseReducers.clearCart();
     },
     editItem: (state, action) => {
       const { cartID, amount } = action.payload;
+      console.log(cartID, amount);
       const editItem = state.cartItems.find((item) => item.cartID === cartID);
 
       state.numItemsInCart += amount - editItem.amount; // tổng số lượng sp trong cart + số lượng sp muôn edit - slg sản phẩm edit(tồn tại trong cart)
-      editItem.cartTotal += editItem.price * (amount - editItem.amount);
+      state.cartTotal += editItem.price * (amount - editItem.amount);
 
       editItem.amount = amount;
       cartSlice.caseReducers.calculateTotals(state);
@@ -71,6 +74,8 @@ const cartSlice = createSlice({
 });
 
 export const getCart = (store) => store.cart.cartItems;
+export const getNumItemsInCart = (store) => store.cart.numItemsInCart;
+export const getCartTotal = (store) => store.cart.cartTotal;
 
 export const { addItem, clearCart, editItem, removeItem } = cartSlice.actions;
 export default cartSlice.reducer;

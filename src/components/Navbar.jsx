@@ -4,7 +4,7 @@ import { FaBarsStaggered } from 'react-icons/fa6';
 import NavLinks from './NavLinks';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getCart } from '../features/cart/cartSlice';
+import { getNumItemsInCart } from '../features/cart/cartSlice';
 
 const themes = {
   cupcake: 'cupcake',
@@ -12,8 +12,7 @@ const themes = {
 };
 
 function Navbar() {
-  const cartTotal = useSelector(getCart);
-  console.log(cartTotal);
+  const numItemsInCart = useSelector(getNumItemsInCart);
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || themes.cupcake;
   });
@@ -74,7 +73,7 @@ function Navbar() {
             <div className="indicator">
               <BsCart3 className="h-6 w-6" />
               <span className="badge badge-sm badge-primary indicator-item">
-                {cartTotal.length}
+                {numItemsInCart}
               </span>
             </div>
           </NavLink>
