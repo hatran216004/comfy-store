@@ -4,14 +4,25 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../features/cart/cartSlice';
 
-export async function loader({ params }) {
-  try {
-    const res = await customFetch(`/products/${params.id}`);
-    const product = res.data.data;
-    return product;
-  } catch (error) {
-    console.log(error);
-  }
+function singleProductQuery(id) {
+  return {
+    queryKey: ['singleProduct', id],
+    queryFn: () => customFetch(`/products/${id}`)
+  };
+}
+
+export function loader(queryClient) {
+  return async ({ params }) => {
+    try {
+      const res = await queryClient.ensureQueryData(
+        singleProductQuery(params.id)
+      );
+      const product = res.data.data;
+      return product;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 function SingleProduct() {

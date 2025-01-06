@@ -1,7 +1,52 @@
-import { Form, Link } from 'react-router-dom';
+import { Form, Link, redirect, useNavigate } from 'react-router-dom';
 import { FormInput, SubmitBtn } from '../components';
+import customFetch from '../utils';
+import { loginUser } from '../features/user/userSlice';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+
+const url = '/auth/local';
+
+export const action = (store) => {
+  return async ({ request }) => {
+    try {
+      const data = Object.fromEntries(await request.formData());
+      const res = await customFetch.post(url, data);
+      store.dispatch(loginUser(res.data));
+      toast.success('Login successfully');
+      return redirect('/');
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.error?.message ||
+          'please double check your credentials'
+      );
+      return null;
+    }
+  };
+};
 
 function Login() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  async function loginAsGuestUser() {
+    try {
+      const res = await customFetch.post(url, {
+        identifier: 'test@test.com',
+        password: 'secret'
+      });
+
+      toast.success('Welcome guest user');
+      dispatch(loginUser(res.data));
+      navigate('/');
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.error?.message ||
+          'please double check your credentials'
+      );
+    }
+  }
+
   return (
     <section className="h-screen grid place-items-center">
       <Form
@@ -13,7 +58,7 @@ function Login() {
           label="email"
           name="identifier"
           type="email"
-          defaultValue="test@test"
+          defaultValue="test@test.com"
         />
 
         <FormInput
@@ -26,7 +71,11 @@ function Login() {
           <SubmitBtn text="login" />
         </div>
 
-        <button type="button" className="btn btn-secondary btn-block uppercase">
+        <button
+          type="button"
+          className="btn btn-secondary btn-block uppercase"
+          onClick={loginAsGuestUser}
+        >
           guest user
         </button>
         <p className="text-center">

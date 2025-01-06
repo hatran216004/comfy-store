@@ -2,10 +2,11 @@ import { useSelector } from 'react-redux';
 import { getNumItemsInCart } from '../features/cart/cartSlice';
 import { CartItemsList, CartTotals, SectionTitle } from '../components';
 import { Link } from 'react-router-dom';
+import { getUser } from '../features/user/userSlice';
 
 function Cart() {
   const numItemsInCart = useSelector(getNumItemsInCart);
-  const user = null;
+  const user = useSelector(getUser);
 
   if (numItemsInCart === 0) {
     return <SectionTitle text="Your cart is empty" />;
